@@ -580,20 +580,20 @@ class privacyNetV4(privacyNet):
 
 
 if __name__ == '__main__':
-	import os
-	from keras import backend as K
-	from keras.backend.tensorflow_backend import set_session
-	batch_size = 16
-	K.set_learning_phase(False)
-	set_session(tf.Session())
+    import os
+    from keras import backend as K
+    from keras.backend.tensorflow_backend import set_session
+    batch_size = 16
+    K.set_learning_phase(False)
+    set_session(tf.Session())
 
-	for gamma in [0.01,0.1,1,10]:
-	    for ind_mode in range(3):
-	    	log_dir = 'logs_mnist_mode_'+str(ind_mode)+'_gamma_'+str(gamma)
-			if not os.path.exists(log_dir):
+    for gamma in [0.01,0.1,1,10]:
+        for ind_mode in range(3):
+            log_dir = 'logs_mnist_mode_'+str(ind_mode)+'_gamma_'+str(gamma)
+            if not os.path.exists(log_dir):
                 os.makedirs(log_dir)
-			mnist_generator = reversedMNISTGenerator()
-			privacy_net = privacyNetV4(log_dir=log_dir,
+            mnist_generator = reversedMNISTGenerator()
+            privacy_net = privacyNetV4(log_dir=log_dir,
 			                           g_model_dir=None,
 			                           d_model_dir=None,
 			                           start_epoch=0,
@@ -607,6 +607,6 @@ if __name__ == '__main__':
 			                           mode=ind_mode,
 			                           epochs=1, lambda_cls=1,
 			                           gamma=gamma, activation='tanh',t_ites =1)
-			privacy_net.train()
+            privacy_net.train()
 
 
