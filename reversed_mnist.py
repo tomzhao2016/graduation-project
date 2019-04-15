@@ -544,7 +544,7 @@ class privacyNetV4(privacyNet):
                 for _ in range(self.g_ites):
                     errG = self.g_train([input_x] + input_u_batch + input_y_batch)
 
-                if i % 50 == 0:
+                if i % 100 == 0:
                     if self.u_size > 0:
                         print(
                             'epoch{}/{},batch:{}/{},loss_u D:{},loss_y D:{},loss_u G:{},loss_y G:{}'.
@@ -557,11 +557,11 @@ class privacyNetV4(privacyNet):
                                        np.mean(errD[0]), np.mean(errG[0]),
                                        ))
 
-                    loss_d.append(np.mean(errD))
+                    loss_d.append(np.mean(errD[0]))
 #                     for ind_1 in range(len(d_loss_list)):
 #                         loss_d[ind_1 + 1].append(np.mean(d_loss_list[ind_1]))
 
-                    loss_g.append(np.mean(errG))
+                    loss_g.append(np.mean(errD[1]))
 #                     for ind_2 in range(len(g_loss_list)):
 #                         loss_g[ind_2 + 1].append(np.mean(g_loss_list[ind_2]))
 
@@ -575,8 +575,8 @@ class privacyNetV4(privacyNet):
                 self.g_model.save_weights(os.path.join(self.log_dir, 'g_model_' + self.date + '_' + str(j) + '.h5'))
                 self.d_model.save_weights(os.path.join(self.log_dir, 'd_model_' + self.date + '_' + str(j) + '.h5'))
         results_loss = {}
-        results_loss['d_loss'] = loss_d
-        results_loss['g_loss'] = loss_g
+        results_loss['loss_u'] = loss_d
+        results_loss['loss_y'] = loss_g
         np.save(os.path.join(self.log_dir, 'result_loss_' + self.date + '_' + str(j) + '.npy'), results_loss)
 
 
