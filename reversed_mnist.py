@@ -75,7 +75,7 @@ def generator(img):
     y = Activation('tanh')(y)
     return y
 
- def discriminator(img, u_size, y_size, u_feat_dims=None, y_feat_dims=None, activation='tanh'):
+def discriminator(img, u_size, y_size, u_feat_dims=None, y_feat_dims=None, activation='tanh'):
 
     y = Conv2D(32, kernel_size=3, strides=2, padding='same', kernel_initializer='he_normal')(img)
     y = LeakyReLU(alpha=0.2)(y)  # 14 14 32
