@@ -591,7 +591,7 @@ if __name__ == '__main__':
 	    for ind_mode in range(3):
 	    	log_dir = 'logs_mnist_mode_'+str(ind_mode)+'_gamma_'+str(gamma)
 			if not os.path.exists(log_dir):
-			    os.makedirs(log_dir)
+                os.makedirs(log_dir)
 			mnist_generator = reversedMNISTGenerator()
 			privacy_net = privacyNetV4(log_dir=log_dir,
 			                           g_model_dir=None,
