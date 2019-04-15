@@ -588,7 +588,7 @@ if __name__ == '__main__':
     K.set_learning_phase(False)
     set_session(tf.Session())
 
-    for gamma in [0.01,0.1,1,10]:
+    for gamma in [1,10]:
         for ind_mode in range(3):
             log_dir = 'logs_mnist_mode_'+str(ind_mode)+'_gamma_'+str(gamma)
             if not os.path.exists(log_dir):
