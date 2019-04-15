@@ -3,6 +3,7 @@ from keras.datasets import mnist
 import random
 
 import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 from sklearn import preprocessing
