@@ -606,7 +606,7 @@ if __name__ == '__main__':
 			                           y_feat_dims=[2],
 			                           u_size = 1,
 			                           mode=ind_mode,
-			                           epochs=1, lambda_cls=1,
+			                           epochs=10, lambda_cls=1,
 			                           gamma=gamma, activation='tanh',t_ites =1)
             privacy_net.train()
 
