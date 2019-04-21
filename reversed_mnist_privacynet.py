@@ -493,10 +493,10 @@ class privacyNetV3(privacyNet):
         # d_loss = u_loss+y_loss+loss_real+loss_fake+loss_gp
         if self.u_size == 0:
             self.d_loss = d_loss_real + d_loss_fake + self.lambda_cls * ((
-                                                                                 1. / self.y_size) * self.gamma * d_loss_y_total) + self.lambda_gp * d_loss_gp
+                                                                                 1. / self.y_size) * d_loss_y_total) + self.lambda_gp * d_loss_gp
         else:
             self.d_loss = d_loss_real + d_loss_fake + self.lambda_cls * ((1 / self.u_size) * d_loss_u_total + (
-                    1. / self.y_size) * self.gamma * d_loss_y_total) + self.lambda_gp * d_loss_gp
+                    1. / self.y_size) * d_loss_y_total) + self.lambda_gp * d_loss_gp
         ## end build D loss
 
         ############## Part II #################
