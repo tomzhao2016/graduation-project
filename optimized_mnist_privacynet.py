@@ -705,7 +705,8 @@ class privacyNetV3(privacyNet):
                                      np.mean(g_loss_list[0]), np.mean(g_loss_list[1])))
 
                     for ind_1 in range(len(d_loss_list)):
-                        loss_d[ind_1].append(np.mean(d_loss_list[ind_1]))
+                        if ind_1 >= 2:
+                            loss_d[ind_1-2].append(np.mean(d_loss_list[ind_1]))
 
                     for ind_2 in range(len(g_loss_list)):
                         loss_g[ind_2].append(np.mean(g_loss_list[ind_2]))
