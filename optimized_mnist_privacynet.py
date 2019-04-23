@@ -506,11 +506,11 @@ class privacyNetV3(privacyNet):
         for i in range(self.y_size):
             self.input_t_trans_feat.append(Input((self.y_feat_dims[i],)))
             self.input_t_real_feat.append(Input((self.y_feat_dims[i],)))
-        h_z = []  # h(y(Z)) tensor.
+        h_z_2 = []  # h(y(Z)) tensor.
         for i in range(self.y_size):
-            h_z.append(self.transform_tail_models[i](self.input_t_trans_feat[i]))
+            h_z_2.append(self.transform_tail_models[i](self.input_t_trans_feat[i]))
         for i in range(self.y_size):
-            self.transform_loss.append(neg_hscore_loss([h_z[i], self.input_t_real_feat[i]]))
+            self.transform_loss.append(neg_hscore_loss([h_z_2[i], self.input_t_real_feat[i]]))
         ## end Connecting three models
 
         ############## Part III #################
@@ -661,7 +661,6 @@ class privacyNetV3(privacyNet):
                 for ind_t in range(self.y_size):
                     input_t_real = d_loss_list[1]
                     input_t_trans = d_loss_list[0]
-                    print(input_t_real.dtype)
                     errT.append(self.transform_train[ind_t]([input_t_trans]))
 
                 for _ in range(self.g_ites):
