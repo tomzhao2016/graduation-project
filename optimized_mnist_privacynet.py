@@ -270,7 +270,7 @@ class privacyNetV3(privacyNet):
         self.y_input_dims = y_input_dims
         self.u_feat_dims = u_feat_dims
         self.y_feat_dims = y_feat_dims
-        self.candidate_data = queue.Queue()
+        # self.candidate_data = queue.Queue()
         self.mode = mode  # 0->generatorV2 1->generatorV3 2->generatorV4
         super(privacyNetV3, self).__init__(**kwargs)
 
@@ -642,12 +642,11 @@ class privacyNetV3(privacyNet):
                 loss_d = [[] for _ in range(5)]
             loss_t = []
             for i in range(self.celeba_generator.steps_per_epoch):
-                while self.candidate_data.qsize() == 0:
-                    pass  # print("size 0")
+
                 # start_1 = time.time()
-                # dict_input, output = next(self.celeba_generator.nextTrain())
+                dict_input, _ = next(self.celeba_generator.nextTrain())
                 # output = output.reshape(self.batch_size)
-                dict_input=self.candidate_data.get()
+
                 input_x = dict_input['input_x']
                 input_y = dict_input['input_y']
                 input_u = dict_input['input_u']
@@ -771,13 +770,6 @@ if __name__ == '__main__':
         os.makedirs(log_dir)
     mnist_generator = reversedMNISTGenerator()
 
-    def load_and_enqueue():
-        while privacy_net.is_training == True:
-            if privacy_net.candidate_data.qsize() < 100:
-                # print('reach here')
-                inputs, _ = next(mnist_generator.nextTrain())
-                privacy_net.candidate_data.put(inputs)
-
 
     privacy_net = privacyNetV3(log_dir=log_dir,
                                g_model_dir=None,
@@ -794,7 +786,4 @@ if __name__ == '__main__':
                                epochs=10, lambda_cls=1,
                                gamma=gamma, activation='tanh', t_ites=1)
 
-    privacy_net.is_training = True
-    t = threading.Thread(target=load_and_enqueue)
-    t.start()
     privacy_net.train()
