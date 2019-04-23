@@ -661,7 +661,7 @@ class privacyNetV3(privacyNet):
                     input_t_real = d_loss_list[1]
                     input_t_trans = d_loss_list[0]
                     print(input_t_real.dtype)
-                    errT.append(self.transform_train[ind_t]([input_t_trans,input_t_real]))
+                    errT.append(self.transform_train[ind_t]([input_t_trans]))
 
                 for _ in range(self.g_ites):
                     g_loss_list = self.g_train([input_x] + input_u_batch + input_y_batch)
