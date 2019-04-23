@@ -574,7 +574,7 @@ class privacyNetV3(privacyNet):
 
         self.d_training_updates = Adam(lr=self.lr, decay=5e-9, beta_1=self.b1, beta_2=self.b2).get_updates(
             self.d_model.trainable_weights, [], self.d_loss)
-        self.d_train = K.function([self.img_a, self.eps_input] + self.attr_u + self.attr_y, self.d_loss_list_print+self.t_inputs,
+        self.d_train = K.function([self.img_a, self.eps_input] + self.attr_u + self.attr_y, self.t_inputs+self.d_loss_list_print,
                                   self.d_training_updates)
 
     def hscore_accu(self, pred, pred_dummy, pu, py, u_labels, y_labels):
@@ -658,8 +658,8 @@ class privacyNetV3(privacyNet):
 
                 errT = []
                 for ind_t in range(self.y_size):
-                    input_t_real = d_loss_list[-1]
-                    input_t_trans = d_loss_list[-2]
+                    input_t_real = d_loss_list[1]
+                    input_t_trans = d_loss_list[0]
                     errT.append(self.transform_train[ind_t](input_t_trans,input_t_real))
 
                 for _ in range(self.g_ites):
@@ -680,8 +680,8 @@ class privacyNetV3(privacyNet):
                         print(
                             'Elapsed [{}], epoch{}/{}, batch:{}/{},loss_real D:{},loss_fake D:{},loss_u D:{},loss_y D:{}, loss_gp D:{}, loss_t:{}'.
                             format(et, j, self.num_epochs, i, self.celeba_generator.steps_per_epoch,
-                                   np.mean(d_loss_list[0]), np.mean(d_loss_list[1]),
-                                   np.mean(d_loss_list[2]), np.mean(d_loss_list[3]), np.mean(d_loss_list[4]),
+                                   np.mean(d_loss_list[0+2]), np.mean(d_loss_list[1+2]),
+                                   np.mean(d_loss_list[2+2]), np.mean(d_loss_list[3+2]), np.mean(d_loss_list[4+2]),
                                    np.mean(errT)))
                         print('Elapsed [{}], epoch{}/{}, batch:{}/{},loss_real G:{},loss_u G:{},loss_y G:{}'.
                               format(et, j, self.num_epochs, i, self.celeba_generator.steps_per_epoch,
