@@ -388,6 +388,7 @@ class privacyNetV3(privacyNet):
         for i in range(self.y_size):
             self.transform_tail_models.append(Model(inputs=[self.transform_y_input[i]],
                                                     outputs=[self.transform_y_tail[i]]))
+            self.transform_tail_models[i].summary()
         if self.t_model_y_dir:
             for ind_y in range(self.y_size):
                 self.transform_tail_models[ind_y].load_weights(self.t_model_y_dir[ind_y])
