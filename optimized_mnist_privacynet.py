@@ -758,7 +758,7 @@ if __name__ == '__main__':
     set_session(tf.Session())
     for gamma in [10]:
         for ind_mode in [3]:
-            log_dir = 'logs_mnist_evenfive_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
+            log_dir = 'logs_mnist_test_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
             if not os.path.exists(log_dir):
                 os.makedirs(log_dir)
             mnist_generator = reversedMNISTGenerator()
