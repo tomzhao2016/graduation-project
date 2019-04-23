@@ -645,8 +645,9 @@ class privacyNetV3(privacyNet):
                 while self.candidate_data.qsize() == 0:
                     pass  # print("size 0")
                 # start_1 = time.time()
-                dict_input, output = next(self.celeba_generator.nextTrain())
-                output = output.reshape(self.batch_size)
+                # dict_input, output = next(self.celeba_generator.nextTrain())
+                # output = output.reshape(self.batch_size)
+                dict_input=self.candidate_data.get()
                 input_x = dict_input['input_x']
                 input_y = dict_input['input_y']
                 input_u = dict_input['input_u']
@@ -774,7 +775,7 @@ if __name__ == '__main__':
         while privacy_net.is_training == True:
             if privacy_net.candidate_data.qsize() < 10:
                 # print('reach here')
-                inputs, _ = next(data_generator.nextTrain())
+                inputs, _ = next(mnist_generator.nextTrain())
                 privacy_net.candidate_data.put(inputs)
 
 
