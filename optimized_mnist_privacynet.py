@@ -773,7 +773,7 @@ if __name__ == '__main__':
 
     def load_and_enqueue():
         while privacy_net.is_training == True:
-            if privacy_net.candidate_data.qsize() < 10:
+            if privacy_net.candidate_data.qsize() < 100:
                 # print('reach here')
                 inputs, _ = next(mnist_generator.nextTrain())
                 privacy_net.candidate_data.put(inputs)
