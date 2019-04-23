@@ -499,6 +499,7 @@ class privacyNetV3(privacyNet):
         ## end build D loss
 
         ############## Part II #################
+        self.transform_loss = []
         self.input_t_trans_feat = []  # T model inputs\
         self.input_t_real_feat = []
         for i in range(self.y_size):
@@ -537,15 +538,6 @@ class privacyNetV3(privacyNet):
             self.g_loss = g_loss_fake + self.lambda_cls * ((1. / self.u_size) * g_loss_u_total - (
                     1. / self.y_size) * self.gamma * g_loss_y_total)
         ## end build G loss
-
-        ############## Part III ###############
-        ## build T loss
-        self.transform_loss = []  # list, transform loss.
-
-        # H-score of Hscore[h(y(Z)),y(X)]
-        for i in range(self.y_size):
-            self.transform_loss.append(neg_hscore_loss([h_z[i], pred_real[1 + self.u_size * 2 + self.y_size + i]]))
-        ## end build T loss
 
         # save list for detail printing.
         self.d_loss_list_print = []
