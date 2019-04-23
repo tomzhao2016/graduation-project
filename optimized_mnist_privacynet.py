@@ -509,7 +509,7 @@ class privacyNetV3(privacyNet):
         for i in range(self.y_size):
             h_z.append(self.transform_tail_models[i](self.input_t_trans_feat[i]))
         for i in range(self.y_size):
-            self.transform_loss.append(neg_hscore_loss([h_z[i], self.input_t_real_feat]))
+            self.transform_loss.append(neg_hscore_loss([h_z[i], self.input_t_real_feat[i]]))
         ## end Connecting three models
 
         ############## Part III #################
