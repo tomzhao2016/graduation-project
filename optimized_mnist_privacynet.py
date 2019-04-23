@@ -754,6 +754,7 @@ class privacyNetV3(privacyNet):
 
 if __name__ == '__main__':
     import os
+    import threading
     from keras import backend as K
     from keras.backend.tensorflow_backend import set_session
 
