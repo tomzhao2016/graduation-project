@@ -547,8 +547,10 @@ class privacyNetV3(privacyNet):
             self.d_loss_list_print.append(d_loss_u_total)
         self.d_loss_list_print.append(d_loss_y_total)
         self.d_loss_list_print.append(d_loss_gp)
-        self.d_loss_list_print.append(pred_real)
-        self.d_loss_list_print.append(pred_trans)
+        self.t_inputs = []
+        for i in range(self.y_size):
+            self.t_inputs.append(pred_trans[1 + self.u_size * 2 + self.y_size + i])
+            self.t_inputs.append(pred_real[1 + self.u_size * 2 + self.y_size + i])
 
         self.g_loss_list_print = []
         self.g_loss_list_print.append(g_loss_fake)
@@ -572,7 +574,7 @@ class privacyNetV3(privacyNet):
 
         self.d_training_updates = Adam(lr=self.lr, decay=5e-9, beta_1=self.b1, beta_2=self.b2).get_updates(
             self.d_model.trainable_weights, [], self.d_loss)
-        self.d_train = K.function([self.img_a, self.eps_input] + self.attr_u + self.attr_y, self.d_loss_list_print,
+        self.d_train = K.function([self.img_a, self.eps_input] + self.attr_u + self.attr_y, self.d_loss_list_print+self.t_inputs,
                                   self.d_training_updates)
 
     def hscore_accu(self, pred, pred_dummy, pu, py, u_labels, y_labels):
@@ -656,8 +658,8 @@ class privacyNetV3(privacyNet):
 
                 errT = []
                 for ind_t in range(self.y_size):
-                    input_t_trans = d_loss_list[-1][1 + self.u_size * 2 + self.y_size + ind_t]
-                    input_t_real = d_loss_list[-2][1 + self.u_size * 2 + self.y_size + ind_t]
+                    input_t_real = d_loss_list[-1]
+                    input_t_trans = d_loss_list[-2]
                     errT.append(self.transform_train[ind_t](input_t_trans,input_t_real))
 
                 for _ in range(self.g_ites):
