@@ -2,6 +2,7 @@ import numpy as np
 from keras.datasets import mnist
 import random
 import time
+import queue
 import datetime
 import matplotlib
 matplotlib.use('Agg')
@@ -269,6 +270,7 @@ class privacyNetV3(privacyNet):
         self.y_input_dims = y_input_dims
         self.u_feat_dims = u_feat_dims
         self.y_feat_dims = y_feat_dims
+        self.candidate_data = queue.Queue()
         self.mode = mode  # 0->generatorV2 1->generatorV3 2->generatorV4
         super(privacyNetV3, self).__init__(**kwargs)
 
@@ -623,7 +625,7 @@ class privacyNetV3(privacyNet):
         return 1 - np.mean(pred[0]), u_accu, p_accu
 
     def train(self):
-
+        self.is_training = True
         dict_val, _ = next(self.celeba_generator.nextVal())
         sample_input_x = dict_val['input_x']
         save_some(sample_input_x[:10], os.path.join(self.log_dir, 'original_image'))
@@ -640,6 +642,8 @@ class privacyNetV3(privacyNet):
                 loss_d = [[] for _ in range(5)]
             loss_t = []
             for i in range(self.celeba_generator.steps_per_epoch):
+                while self.candidate_data.qsize() == 0:
+                    pass  # print("size 0")
                 # start_1 = time.time()
                 dict_input, output = next(self.celeba_generator.nextTrain())
                 output = output.reshape(self.batch_size)
@@ -746,7 +750,7 @@ class privacyNetV3(privacyNet):
                 gan_result['g_loss_y'] = loss_g[1]
 
             np.save(os.path.join(self.log_dir, 'gan_result_' + self.date + '_' + str(j) + '.npy'), gan_result)
-
+        self.is_training = False
 
 if __name__ == '__main__':
     import os
@@ -756,24 +760,39 @@ if __name__ == '__main__':
     batch_size = 16
     K.set_learning_phase(False)
     set_session(tf.Session())
-    for gamma in [10]:
-        for ind_mode in [3]:
-            log_dir = 'logs_mnist_test_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
-            if not os.path.exists(log_dir):
-                os.makedirs(log_dir)
-            mnist_generator = reversedMNISTGenerator()
-            privacy_net = privacyNetV3(log_dir=log_dir,
-                                       g_model_dir=None,
-                                       d_model_dir=None,
-                                       start_epoch=0,
-                                       batch_size=batch_size,
-                                       image_size=(28, 28, 1),
-                                       data_generator=mnist_generator,
-                                       u_input_dims=[10],
-                                       u_feat_dims=[10],
-                                       y_feat_dims=[2],
-                                       u_size=1,
-                                       mode=ind_mode,
-                                       epochs=10, lambda_cls=1,
-                                       gamma=gamma, activation='tanh', t_ites=1)
-            privacy_net.train()
+    # for gamma in [10]:
+    #     for ind_mode in [3]:
+    gamma = 10
+    ind_mode = 3
+    log_dir = 'logs_mnist_test_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+    mnist_generator = reversedMNISTGenerator()
+
+    def load_and_enqueue():
+        while privacy_net.is_training == True:
+            if privacy_net.candidate_data.qsize() < 10:
+                # print('reach here')
+                inputs, _ = next(data_generator.nextTrain())
+                privacy_net.candidate_data.put(inputs)
+
+
+    privacy_net = privacyNetV3(log_dir=log_dir,
+                               g_model_dir=None,
+                               d_model_dir=None,
+                               start_epoch=0,
+                               batch_size=batch_size,
+                               image_size=(28, 28, 1),
+                               data_generator=mnist_generator,
+                               u_input_dims=[10],
+                               u_feat_dims=[10],
+                               y_feat_dims=[2],
+                               u_size=1,
+                               mode=ind_mode,
+                               epochs=10, lambda_cls=1,
+                               gamma=gamma, activation='tanh', t_ites=1)
+
+    privacy_net.is_training = True
+    t = threading.Thread(target=load_and_enqueue)
+    t.start()
+    privacy_net.train()
