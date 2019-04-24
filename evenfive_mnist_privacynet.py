@@ -695,7 +695,7 @@ class privacyNetV3(privacyNet):
                     save_some(val_trans_x[:10], os.path.join(self.log_dir, 'predict_' + str(j) + '_' + str(i)))
 
             # save g/d/t_models
-            if (j + 1) % 5 == 0:
+            if (j + 1) % 10 == 0:
                 self.g_model.save_weights(os.path.join(self.log_dir, 'g_model_' + self.date + '_' + str(j) + '.h5'))
                 self.d_model.save_weights(os.path.join(self.log_dir, 'd_model_' + self.date + '_' + str(j) + '.h5'))
 
@@ -751,6 +751,6 @@ if __name__ == '__main__':
                                        y_feat_dims=[2],
                                        u_size=1,
                                        mode=ind_mode,
-                                       epochs=10, lambda_cls=1,
-                                       gamma=gamma, activation='tanh', t_ites=1)
+                                       epochs=30, lambda_cls=1,
+                                       gamma=gamma, activation='tanh', t_ites=2)
             privacy_net.train()
