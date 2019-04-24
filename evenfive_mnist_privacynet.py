@@ -733,7 +733,7 @@ if __name__ == '__main__':
     batch_size = 16
     K.set_learning_phase(False)
     set_session(tf.Session())
-    for gamma in [0.01,0.1,1,10]:
+    for gamma in [2,4,6,8]:
         for ind_mode in [3]:
             log_dir = 'logs_mnist_e3_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
             if not os.path.exists(log_dir):
@@ -752,5 +752,5 @@ if __name__ == '__main__':
                                        u_size=1,
                                        mode=ind_mode,
                                        epochs=20, lambda_cls=1,
-                                       gamma=gamma, activation='tanh', t_ites=2)
+                                       gamma=gamma, activation='tanh', t_ites=1)
             privacy_net.train()
