@@ -733,9 +733,9 @@ if __name__ == '__main__':
     batch_size = 16
     K.set_learning_phase(False)
     set_session(tf.Session())
-    for gamma in [2,4,6,8]:
+    for gamma in [2]:
         for ind_mode in [3]:
-            log_dir = 'logs_mnist_e3_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
+            log_dir = 'logs_mnist_e4_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
             if not os.path.exists(log_dir):
                 os.makedirs(log_dir)
             mnist_generator = mnistGenerator()
@@ -751,6 +751,6 @@ if __name__ == '__main__':
                                        y_feat_dims=[2],
                                        u_size=1,
                                        mode=ind_mode,
-                                       epochs=20, lambda_cls=1,
+                                       epochs=30, lambda_cls=1,
                                        gamma=gamma, activation='tanh', t_ites=1)
             privacy_net.train()
