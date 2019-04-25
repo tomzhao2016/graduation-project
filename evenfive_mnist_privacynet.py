@@ -733,7 +733,7 @@ if __name__ == '__main__':
     batch_size = 16
     K.set_learning_phase(False)
     set_session(tf.Session())
-    for gamma in [2]:
+    for gamma in [0.01,0.1,1]:
         for ind_mode in [3]:
             log_dir = 'logs_mnist_e4_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
             if not os.path.exists(log_dir):
