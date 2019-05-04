@@ -7,8 +7,13 @@ and authenticity. On the desensitized images, the predictions on the private lab
 On the contrary, when predicting public labels, the performance should be close to the original performance.
 ## Reversed MNIST data:
 We reverse the MNIST data by changing the original white digits on the black background to black digits with white backgrounds.
-Then, we set whether the image is reversed as the private content, and the digit number as the public content.
+Then, we set **whether the image is reversed** as the private content, and **the digit number** as the public content.
 The desensitized images with different privacy levels are shown below.
 ![alt text](/privacynet_images/reversed_mnist_privacynet.png)
 The private and public accuracy when testing on the desensitized images are:
 ![alt text](/privacynet_images/reversed_mnist_accuracy.png)
+
+## CelebA human face data:
+In this experiment, the private label is **the gender information**, and the public labels are **wearing heavy makeup,
+wearing lipsticks, Arched Eyebrows, Wavy Hair, No beard**.
+![alt text](/privacynet_images/new_celeba.png)
