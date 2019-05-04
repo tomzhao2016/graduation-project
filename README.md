@@ -13,6 +13,14 @@ The desensitized images with different privacy levels are shown below.
 The private and public accuracy when testing on the desensitized images are:
 ![alt text](/privacynet_images/reversed_mnist_accuracy.png)
 
+Privacy level | Private |   Public |
+------------- | ------- | -------- |
+Ground Truth | 100.0% | 96.97% |
+0.01 | 50.00% | 95.32% |
+0.1 | 50.00% | 92.10% |
+1 | 50.00% | 96.11% |
+10 | 50.00% | 92.37% |
+
 ## CelebA human face data:
 In this experiment, the private label is **the gender information**, and the public labels are **wearing heavy makeup,
 wearing lipsticks, Arched Eyebrows, Wavy Hair, No beard**.
