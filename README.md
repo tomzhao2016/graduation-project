@@ -11,7 +11,6 @@ Then, we set **whether the image is reversed** as the private content, and **the
 The desensitized images with different privacy levels are shown below.
 ![alt text](/privacynet_images/reversed_mnist_privacynet.png)
 The private and public accuracy when testing on the desensitized images are:
-![alt text](/privacynet_images/reversed_mnist_accuracy.png)
 
 Privacy level | Private |   Public |
 ------------- | ------- | -------- |
