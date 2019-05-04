@@ -763,7 +763,7 @@ if __name__ == '__main__':
     set_session(tf.Session())
     # for gamma in [10]:
     #     for ind_mode in [3]:
-    gamma = 10
+    gamma = 1
     ind_mode = 3
     log_dir = 'logs_mnist_test_mode_' + str(ind_mode) + '_gamma_' + str(gamma)
     if not os.path.exists(log_dir):
