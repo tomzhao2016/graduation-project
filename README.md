@@ -18,4 +18,5 @@ In this experiment, the private label is **the gender information**, and the pub
 wearing lipsticks, Arched Eyebrows, Wavy Hair, No beard**.
 ![alt text](/privacynet_images/new_celeba.png)
 The private accuracy and public accuracy are:
+
 ![alt text](/privacynet_images/celeba_accuracy.png)
