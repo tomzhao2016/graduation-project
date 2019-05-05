@@ -6,7 +6,7 @@ PrivacyNet learns an image-to-image translation, which desensitizes the original
 and authenticity. On the desensitized images, the predictions on the private labels should be no more than random guesses.
 On the contrary, when predicting public labels, the performance should be close to the original performance.
 ## Network Architecture:
-![alt text](/privacynet_images/privacynet_train_arch.pdf)
+![alt text](/privacynet_images/privacynet_train_arch.png)
 ## Reversed MNIST data:
 We reverse the MNIST data by changing the original white digits on the black background to black digits with white backgrounds.
 Then, we set **whether the image is reversed** as the private content, and **the digit number** as the public content.
